@@ -2,11 +2,12 @@ const taskList = document.getElementById('taskList');
 const taskInput = document.getElementById('taskInput');
 const addTaskBtn = document.getElementById('addTaskBtn');
 const deleteAll = document.getElementById('deleteAllBtn');
+const searchBox = document.getElementById('searchBox');
 
 
 window.addEventListener('DOMContentLoaded', () => {
     const taskValues = JSON.parse(localStorage.getItem("taskValue")) || [];
-    
+
     taskValues.forEach(task => {
         addTaskToDOM(task);
     });
@@ -16,7 +17,7 @@ addTaskBtn.addEventListener('click', (e) => {
     e.preventDefault();
 
     const taskText = taskInput.value.trim();
-    if (taskInput.value.trim() === ""){
+    if (taskInput.value.trim() === "") {
         alert("Enter a Value")
         return;
     }
@@ -52,7 +53,7 @@ function addTaskToDOM(task) {
     doneBtn.addEventListener('click', () => {
         li.classList.toggle('done-task');
 
-        if(li.classList.contains('done-task')){
+        if (li.classList.contains('done-task')) {
             doneBtn.textContent = "Undone"
         } else {
             doneBtn.textContent = "Done"
@@ -75,7 +76,7 @@ function addTaskToDOM(task) {
     taskList.appendChild(li);
 }
 
-deleteAll.addEventListener('click', (e)=>{
+deleteAll.addEventListener('click', (e) => {
     e.preventDefault();
 
     taskList.innerHTML = "";
@@ -93,3 +94,17 @@ function removeTask(taskText) {
     const updatedTasks = taskValues.filter(task => task.text !== taskText);
     localStorage.setItem("taskValue", JSON.stringify(updatedTasks));
 }
+
+searchBox.addEventListener('input', () => {
+    taskList.innerHTML = ""
+
+    const searchValue = searchBox.value.trim().toLowerCase()
+
+    const allTasks = JSON.parse(localStorage.getItem("taskValue")) || [];
+
+    const searched = allTasks.filter(item => item.text.toLowerCase().includes(searchValue))
+
+    searched.forEach(task => {
+        addTaskToDOM(task)
+    })
+})
