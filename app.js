@@ -95,6 +95,7 @@ function removeTask(taskText) {
     localStorage.setItem("taskValue", JSON.stringify(updatedTasks));
 }
 
+// Live Search
 searchBox.addEventListener('input', () => {
     taskList.innerHTML = ""
 
